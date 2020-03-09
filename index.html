@@ -7,8 +7,16 @@
 </head>
 <body>
   <div id="app">
-    <p>{{ msg }}</p>
-    <p v-text="msg"></p>
+    <p>{{car.brand}}</p>
+    <p v-text="car.color"></p>
+    <p>{{msg}}</p>
+    <!-- <p>大家好，我是xxx</p>
+    <p>大家好，msg的内容是{{ msg }}</p>
+    <p>大家好，msg的内容是{{ tag }}</p>
+    <p v-text="msg" title="哈哈"></p>
+    <p v-html="tag" title="哈哈"></p>
+    <input v-model="msg">
+    <button v-on:click="clickFn">按钮</button> -->
   </div>
   <script src="./src/compile.js"></script>
   <script src="./src/vue.js"></script>
@@ -17,10 +25,20 @@
     const vm = new Vue({
       el: '#app',
       data: {
-        msg: 'hello vue'
+        msg: 'hello vue',
+        tag: '<h3>哈哈</h3>',
+        car: {
+          brand: '大众',
+          color: 'yellow'
+        }
+      },
+      methods: {
+        clickFn () {
+          // 在vue中，this指向当前实例
+          console.log(this.$data.msg)
+        }
       }
     })
-    console.log(vm)
   </script>
 </body>
 </html>
