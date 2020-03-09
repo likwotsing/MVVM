@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    var obj = {
+      name: 'zs'
+    }
+
+    var temp = obj['name']
+    
+    Object.defineProperty(obj, 'name', {
+      // configurable: false,
+      configurable: true, // 表示属性可以配置
+      enumerable: false, // 表示这个属性可以遍历
+      get() {
+        // 每次获取对象这个属性的时候，就会被这个get方法劫持到
+        console.log('get被执行了')
+        return temp
+      },
+      set (newValue) {
+        console.log('set被执行了')
+        temp = newValue
+      }
+    })
+
+    Object.defineProperty(obj, 'name', {
+      enumerable: true
+    })
+
+    for (var key in obj) {
+      console.log(obj[key])
+    }
+  </script>
+</body>
+</html>
