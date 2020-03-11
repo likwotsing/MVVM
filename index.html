@@ -7,10 +7,10 @@
 </head>
 <body>
   <div id="app">
-    <p v-text="car.brand"></p>
-    <p>{{car.brand}}</p>
-    <p v-html="car.brand"></p>
-    <input v-model="car.brand">
+    <p v-text="msg"></p>
+    <p>{{msg}}</p>
+    <p v-html="msg"></p>
+    <input v-model="msg">
     <button v-on:click="clickFn">按钮</button>
     <!-- <p>{{car.brand}}</p> -->
     <!-- <p v-text="car.color"></p> -->
@@ -42,7 +42,8 @@
         clickFn () {
           // 在vue中，this指向当前实例
           console.log(this.$data.msg)
-          this.$data.car.brand = '奔驰'
+          // this.$data.msg = '奔驰'
+          this.msg = '哈哈'
         }
       }
     })
