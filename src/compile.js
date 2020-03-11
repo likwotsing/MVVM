@@ -114,17 +114,36 @@ let CompileUtil = {
       let expr = RegExp.$1.trim()
       // node.textContent = txt.replace(reg, this.vm.$data[expr])
       node.textContent = txt.replace(reg, this.getVMValue(vm, expr))
+      new Watcher(vm, expr, newValue => {
+        node.textContent = newValue
+      })
     }
   },
   // 处理v-text指令
   text(node, vm, expr) {
     node.textContent = this.getVMValue(vm, expr)
+    // 通过watcher对象，监听expr的数据变化，一旦变化了，就执行回调函数
+    new Watcher(vm, expr, newValue => {
+      node.textContent = newValue
+    })
   },
   html(node, vm, expr) {
     node.innerHTML = this.getVMValue(vm, expr)
+    new Watcher(vm, expr, newValue => {
+      node.innerHTML = newValue
+    })
   },
   model(node, vm, expr) {
+    const self = this
     node.value = this.getVMValue(vm, expr)
+    // 实现双向数据绑定，给node注册input事件，当当前元素的value值发生改变，修改对应的数据
+    node.addEventListener('input', function() {
+      // vm.$data[expr] = this.value
+      self.setVMValue(vm, expr, this.value)
+    })
+    new Watcher(vm, expr, newValue => {
+      node.value = newValue
+    })
   },
   eventHandler(node, vm, type, expr) {
     let eventType = type.split(':')[1]
@@ -142,5 +161,18 @@ let CompileUtil = {
       data = data[key]
     })
     return data
+  },
+  setVMValue(vm, expr, value) {
+    let data = vm.$data
+    // let arr = expr.split('.')
+    expr.split('.').forEach((item, index, arr) => {
+      // data['car']['brand'] = value
+      // 如果index是最后一个
+      if (index < arr.length - 1) {
+        data = data[item]
+      } else {
+        data[item] = value
+      }
+    })
   }
 }

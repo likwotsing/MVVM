@@ -7,9 +7,14 @@
 </head>
 <body>
   <div id="app">
+    <p v-text="car.brand"></p>
     <p>{{car.brand}}</p>
-    <p v-text="car.color"></p>
-    <p>{{msg}}</p>
+    <p v-html="car.brand"></p>
+    <input v-model="car.brand">
+    <button v-on:click="clickFn">按钮</button>
+    <!-- <p>{{car.brand}}</p> -->
+    <!-- <p v-text="car.color"></p> -->
+    <!-- <p>{{msg}}</p> -->
     <!-- <p>大家好，我是xxx</p>
     <p>大家好，msg的内容是{{ msg }}</p>
     <p>大家好，msg的内容是{{ tag }}</p>
@@ -19,6 +24,7 @@
     <button v-on:click="clickFn">按钮</button> -->
   </div>
   <script src="./src/observer.js"></script>
+  <script src="./src/watcher.js"></script>
   <script src="./src/compile.js"></script>
   <script src="./src/vue.js"></script>
   <script>
@@ -36,6 +42,7 @@
         clickFn () {
           // 在vue中，this指向当前实例
           console.log(this.$data.msg)
+          this.$data.car.brand = '奔驰'
         }
       }
     })
