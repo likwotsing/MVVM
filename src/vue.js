@@ -8,6 +8,9 @@ class Vue {
     this.$data = options.data
     this.$methods = options.methods
 
+    // 监视data中的数据
+    new Observer(this.$data)
+
     // 如果指定了el参数，对el进行解析
     if (this.$el) {
       // compile负责解析模板的内容
