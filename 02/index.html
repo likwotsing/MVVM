@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    {{msg}}
+    <p v-text="msg"></p>
+    <p v-html="tag"></p>
+    <button v-on:click="clickFn">按钮</button>
+  </div>
+
+  <script src="./src/compiler.js"></script>
+  <script src="./src/vue.js"></script>
+  <script>
+    const vm1 = new Vue()
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello vue',
+        tag: '<h3>hi, vue</h3>'
+      },
+      methods: {
+        clickFn() {
+          console.log('aaa')
+        }
+      }
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>
