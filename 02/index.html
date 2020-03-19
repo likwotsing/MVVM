@@ -10,6 +10,7 @@
     {{msg}}
     <p v-text="msg"></p>
     <p v-html="tag"></p>
+    <input type="text" v-model="msg">
     <button v-on:click="clickFn">按钮</button>
   </div>
 
@@ -21,15 +22,18 @@
       el: '#app',
       data: {
         msg: 'hello vue',
-        tag: '<h3>hi, vue</h3>'
+        tag: '<h3>hi, vue</h3>',
+        car: {
+          brand: '大众',
+          color: 'red'
+        }
       },
       methods: {
         clickFn() {
-          console.log('aaa')
+          console.log(this.$data.msg)
         }
       }
     })
-    console.log(vm)
   </script>
 </body>
 </html>
