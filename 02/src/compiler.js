@@ -10,7 +10,6 @@ class Compiler {
     if(this.el) {
       // 1. 把el的所有子节点放到fragment中
       let fragment = this.node2fragment(this.el)
-      console.log(fragment)
       // 2. 在内存中编译fragment
       this.compile(fragment)
       // 3. 把fragment一次性添加到页面
@@ -55,9 +54,10 @@ class Compiler {
       if (this.isDirective(attrName)) {
         let type = attrName.slice(2)
         let expr = attr.value
-        CompileUtil[type] && CompileUtil[type](node, this.vm, expr)
         if (this.isEventDirective(type)) {
           CompileUtil['eventHandler'](node, this.vm, type, expr)
+        } else {
+          CompileUtil[type] && CompileUtil[type](node, this.vm, expr)
         }
       }
     })
@@ -65,6 +65,7 @@ class Compiler {
 
   compileText(node) {
     // 插值表达式
+    CompileUtil.mustache(node, this.vm)
   }
 
   /**
@@ -89,11 +90,31 @@ class Compiler {
 }
 
 let CompileUtil = {
+  mustache(node, vm) {
+    let txt = node.textContent
+    let reg = /\{\{(.+)\}\}/
+    if(reg.test(txt)) {
+      let expr = RegExp.$1
+      node.textContent = txt.replace(reg, this.getVMValue(vm, expr))
+      // 添加watcher
+      new Watcher(vm, expr, newValue => {
+        node.textContent = newValue
+      })
+    }
+  },
   text(node, vm, expr) {
     node.textContent = this.getVMValue(vm, expr)
+    // 添加watcher
+    new Watcher(vm, expr, newValue => {
+      node.textContent = newValue
+    })
   },
   html(node, vm, expr) {
     node.innerHTML = this.getVMValue(vm, expr)
+    // 添加watcher
+    new Watcher(vm, expr, newValue => {
+      node.innerHTML = newValue
+    })
   },
   model(node, vm, expr) {
     let that = this
@@ -102,6 +123,10 @@ let CompileUtil = {
     node.addEventListener('input', function() {
       // 给node注册事件时，this指向的是node
       that.setVMValue(vm, expr, this.value)
+    })
+    // 添加watcher
+    new Watcher(vm, expr, newValue => {
+      node.value = newValue
     })
   },
   eventHandler(node, vm, type, expr) {
