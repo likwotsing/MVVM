@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>{{msg}}</p>
+    <p v-text="msg" title="haha"></p>
+    <p v-html="tag"></p>
+    <input v-model="car.color">
+    <button v-on:click="clickFn">按钮</button>
+  </div>
+
+  <script src="./src/watcher.js"></script>
+  <script src="./src/observer.js"></script>
+  <script src="./src/compiler.js"></script>
+  <script src="./src/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello, vue',
+        tag: '<h3>haha</h3>',
+        car: {
+          brand: '宝马',
+          color: 'yellow'
+        }
+      },
+      methods: {
+        clickFn() {
+          console.log(this.$data.msg);
+          this.msg = this.car.color
+        }
+      }
+    })
+  </script>
+</body>
+</html>
