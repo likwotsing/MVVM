@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p v-text="msg" title="haha"></p>
+    {{msg}}
+    <p>{{msg}}</p>
+    <p v-html="tag"></p>
+    <input v-model="msg" >
+    <button v-on:click="handleClick">按钮</button>
+  </div>
+
+  <script src="./src/compiler.js"></script>
+  <script src="./src/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hellow, vue',
+        tag: '<span style="color: #4079EE">this is tag</span>',
+        car: {
+          brand: '宝马',
+          color: 'red'
+        }
+      },
+      methods: {
+        handleClick() {
+          console.log(this.$data.car.color)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
